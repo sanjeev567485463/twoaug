@@ -1,1 +1,32 @@
+on:
+  workflow_dispatch:   # मैन्युअल ट्रिगिगर, optional
+  workflow_call:       # इसे दूसरे वर्कफ़्लो से ‘uses:’ से कॉल कर सकें
+
+    inputs:
+      environment:
+        description: "Deployment environment"
+        required: false
+        type: string
+        default: "staging"
+
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run build
+        run: echo "Building for ${{ inputs.environment }} environment"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy step
+        run: echo "Deploying to ${{ inputs.environment }} environment"
 
