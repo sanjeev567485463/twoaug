@@ -1,1 +1,15 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  invoke-build-and-deploy:
+    uses: ./.github/workflows/build-and-deploy.yml
+
+    with:
+      environment: "production"
+
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
